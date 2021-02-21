@@ -57,23 +57,23 @@ def ant_spawn(dico_1) :
     Specification : Julien Emegenbirn (v1. 19/02/2021)
     """
 
-def Thebyshev() :
+def thebyshev() :
     """
     parameters :
     ------------
 
     return:
-    Tchebyshev_distance : (tuple)
+    tchebyshev_distance : (tuple)
     version :
     ---------
     spécification : Frédéric Sauvage (v1. 21/02/21)
     """
-def Thebyshev_distance(list_1,Chebyshev) :
+def thebyshev_distance(list_1,Chebyshev) :
     """
     parameters :
     ------------
     list_1 : take the prayer and the second element of the list_1 (int)
-    Tchebyshev : take position x,y(tuple)
+    tchebyshev : take position x,y(tuple)
 
     return :
     posibility_attack : the ants can attack or not (bool)
