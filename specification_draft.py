@@ -1,13 +1,18 @@
-
-
 def ant_level(list_2):
     """
+    This will check how many squares of earth are around the anthill of the player. 
+    This is used to see if the player has won i.e. if he has all 8 spots around him filled with earth but
+    also to determin the level of spawning ants. It takes the list of position as parameter and returns the 
+    amount of filled spots and the level of the new spawning ant.
+    
     Parameters:
     -----------
     list_2 : list of cases around the spawn point where are motte or not (list)
-    :return:
+    
+    return:
     full_cases : number of cases with a motte (int)
     ant_spawn_level : level of the new ant (int)
+    
     Version :
     Specification : Julien Emegenbirn (v1. 19/02/2021)
     ---------
