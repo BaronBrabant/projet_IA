@@ -68,7 +68,7 @@ def thebyshev() :
     ---------
     spécification : Frédéric Sauvage (v1. 21/02/21)
     """
-def thebyshev_distance(list_1,Chebyshev) :
+def thebyshev_distance(list_1,chebyshev) :
     """
     parameters :
     ------------
@@ -82,7 +82,7 @@ def thebyshev_distance(list_1,Chebyshev) :
     ---------
     spécification : Frédéric Sauvage (v1. 21/02/21)
     """
-def ant_attack (TChebyshev_distance,dico_2) :
+def ant_attack (tchebyshev_distance,dico_2) :
     """
     parameters : 
     ------------
