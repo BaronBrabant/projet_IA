@@ -9,7 +9,7 @@ def ant_level(list_2):
     -----------
     list_2 : list of cases around the spawn point where are motte or not (list)
     
-    return:
+    :return:
     full_cases : number of cases with a motte (int)
     ant_spawn_level : level of the new ant (int)
     
@@ -20,9 +20,13 @@ def ant_level(list_2):
 
 def motte_de_terre(dico_2):
     """
+    This function serves to pickup and drop a piece of earth. 
+    It takes the dico_2 as paramter to establish whether the ant is already carrying something or not.
+    
     Parameters :
     ------------
     dico_2 : The third elements of all the list in the dictionary (bool)
+    
     :return:
     ant_charge : If the ant as already a motte (bool)
     Version :
@@ -32,9 +36,14 @@ def motte_de_terre(dico_2):
 
 def ant_spawn(dico_1) :
     """
+    This function serves to spawn a new ant when all other orders
+    have been executed. It takes the dico_1 as parameter in order
+    to obtain the level of the anthill to spawn the correct level ant.
+    
     Parameters :
     ------------
     dico_1 : the third element of the list for every key (int)
+    
     :return:
     new_ant : add a new list in the dico_2 (list)
     Version :
@@ -42,8 +51,10 @@ def ant_spawn(dico_1) :
     Specification : Julien Emegenbirn (v1. 19/02/2021)
     """
 
-def thebyshev() :
+def tchebyshev() :
     """
+    This function calculates the Tchebyshev distance
+    
     parameters :
     ------------
 
@@ -53,11 +64,14 @@ def thebyshev() :
     ---------
     spécification : Frédéric Sauvage (v1. 21/02/21)
     """
-def thebyshev_distance(list_1,chebyshev) :
+def thebyshev_distance(list_1,Tchebyshev) :
     """
+    This function takes the list_1 to find the position of the ant and calculates if the wanted attack is in range, if not 
+    the order will be ignored.
+    
     parameters :
     ------------
-    list_1 : take the prayer and the second element of the list_1 (int)
+    list_1 : take the player and the second element of the list_1 (int)
     tchebyshev : take position x,y(tuple)
 
     return :
@@ -69,6 +83,8 @@ def thebyshev_distance(list_1,chebyshev) :
     """
 def ant_attack (tchebyshev_distance,dico_2) :
     """
+    This function uses the tchebyshev_distance() function to calculate the possibilty of the shot 
+    and if succesful removes life points from ants in the dico_2.
     parameters : 
     ------------
     Tchebyshev_distance : take position x,y(tuple)
@@ -101,12 +117,12 @@ def ant_attack (tchebyshev_distance,dico_2) :
     allowed_or_not : boolean value determining if the piece of earth can be picked up (bool)
 
 
+    version : v1
+    ---------
     spécification : Benjamin Richter (v1. 21/02/21)
     '''
 
-   
-
-
+ 
 def movement(dico2, list_position_earth, movement_input):
     '''
     This function will take the desired movement_input, will check if the inputed position of the wanted ant is correct by checking
@@ -120,7 +136,9 @@ def movement(dico2, list_position_earth, movement_input):
     dico2 : dictionary containing information on the ant such as its health and if it is carrying earth or not (dict)
     list_position_earth : this is the list containing information on what is happening on every square of the map (list)
     movement_input : this will be a string under the format r1-c1:*r2-c2 where as many of those orders can be inputed simultaneously as wanted(str)
-
+    
+    version : v1
+    ---------
     spécification : Benjamin Richter (v1. 21/02/21)
     '''
 
@@ -137,5 +155,7 @@ def give_orders(game_status,orders):
     game_status : this is a boolean value to determin if the game is over or not (bool)
     orders : string of charcaters which will be translated to orders (str)
 
+    version : v1
+    ---------
     spécification : Benjamin Richter (v1. 21/02/21)
     '''
