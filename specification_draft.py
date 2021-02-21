@@ -18,7 +18,7 @@ def colour_code_map(dico2, list_position_earth):
     allowed_or_not : boolean value determining if the piece of earth can be picked up (bool)
     '''
 
-    return allowed_or_not
+
 
 def ant_level(list_2):
     """
