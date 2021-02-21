@@ -1,23 +1,3 @@
-def colour_code_map(dico2, list_position_earth):
-    '''
-    This function adds a colour code to the background of one game square to 
-    tell the player if the ant, which is on top of a piece of earth, 
-    has the abolity to lift the piece of earth or not.
-
-    Parameters
-    __________
-
-    dico2 : dictionnary containting list filled with infomation on ants (list1)
-    list1[0] : contains force of ants to determin their strength to carry earth (int)
-    list1[1] : contains boolean value determining if the ant is already carrying something (bool)
-    list_position_earth : list containing all pieces of earth (list)
-
-    Return
-    ______ 
-
-    allowed_or_not : boolean value determining if the piece of earth can be picked up (bool)
-    '''
-
 
 
 def ant_level(list_2):
@@ -95,3 +75,62 @@ def ant_attack (tchebyshev_distance,dico_2) :
     ---------
     spécification : Frédéric Sauvage, Julien Emegenbirn (v1. 21/02/21)
     """
+
+    def colour_code_map(dico2, list_position_earth):
+    '''
+    This function adds a colour code to the background of one game square to 
+    tell the player if the ant, which is on top of a piece of earth, 
+    has the abolity to lift the piece of earth or not.
+
+    Parameters
+    __________
+
+    dico2 : dictionnary containting list filled with infomation on ants (list1)
+    list1[0] : contains force of ants to determin their strength to carry earth (int)
+    list1[1] : contains boolean value determining if the ant is already carrying something (bool)
+    list_position_earth : list containing all pieces of earth (list)
+
+    Return
+    ______ 
+
+    allowed_or_not : boolean value determining if the piece of earth can be picked up (bool)
+
+
+    spécification : Benjamin Richter (v1. 21/02/21)
+    '''
+
+   
+
+
+def movement(dico2, list_position_earth, movement_input):
+    '''
+    This function will take the desired movement_input, will check if the inputed position of the wanted ant is correct by checking
+    its position in the list_position_earth and will finally allow the player to move its ant to the desired position if it does 
+    not infringe any game rules such as moving onto a squre filled with earth while already carrying some through the dico2.
+    If the movement is succesful the list inputed as the list_position_earth will be updated with the new game coordinates.
+
+    Parameters
+    __________
+
+    dico2 : dictionary containing information on the ant such as its health and if it is carrying earth or not (dict)
+    list_position_earth : this is the list containing information on what is happening on every square of the map (list)
+    movement_input : this will be a string under the format r1-c1:*r2-c2 where as many of those orders can be inputed simultaneously as wanted(str)
+
+    spécification : Benjamin Richter (v1. 21/02/21)
+    '''
+
+
+def give_orders(game_status,orders):
+    '''
+    This will be the sole function with an input and will serve as an interface for the game to give all orders at the same time.
+    These will be chains of characters which if formated correctly in the form r1-c1:*r2-c2, r1-c1:@r2-c2, r1-c1:lift or r1-c1:drop will be 
+    interpreted by the game to execute orders and send the order to the correct function to be executed.
+
+    Parameters
+    __________
+
+    game_status : this is a boolean value to determin if the game is over or not (bool)
+    orders : string of charcaters which will be translated to orders (str)
+
+    spécification : Benjamin Richter (v1. 21/02/21)
+    '''
