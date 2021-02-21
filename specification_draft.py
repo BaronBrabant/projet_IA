@@ -101,7 +101,7 @@ def ant_attack (tchebyshev_distance,dico_2) :
     '''
     This function adds a colour code to the background of one game square to 
     tell the player if the ant, which is on top of a piece of earth, 
-    has the abolity to lift the piece of earth or not.
+    has the ability to lift the piece of earth or not.
 
     Parameters
     __________
