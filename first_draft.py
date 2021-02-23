@@ -64,3 +64,39 @@ def give_orders(game_status):
 
 
 give_orders(False)
+
+
+
+def tchebyshev(coordinates):
+    """
+    This function calculates the Tchebyshev distance by 
+    taking the c1,c2,r1 and r2 position to caluclate the distance between the given points
+    
+    parameters :
+    ------------
+    coordinates : list of four position values that the function needs (list)
+
+    return:
+    tchebyshev_distance : (tuple)
+    version :
+    ---------
+    spécification : Frédéric Sauvage (v1. 21/02/21)
+    """
+
+    tchebyshev_x1 = coordinates[0]
+    tchebyshev_x2 = coordinates[1]
+    tchebyshev_y1 = coordinates[2]
+    tchebyshev_y2 = coordinates[3]
+
+    net_x = tchebyshev_x2 - tchebyshev_x1
+    net_y = tchebyshev_y2 - tchebyshev_y1
+
+    if net_x < 0:
+        net_x = net_x*-1
+
+    if net_y < 0:
+        net_y = net_y*-1
+
+    tchebyshev_tuple = (net_x, net_y)
+
+    return tchebyshev_tuple
