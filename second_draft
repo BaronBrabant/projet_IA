@@ -1,3 +1,19 @@
+'''
+Yo c'est plus ou moins la premiere version des functions et de la base de donnee:
+-dico1
+-dico2
+-list1 avec une carte qu'on pourra peut etre utiliser comme simu?
+-liste des fourmillieres 
+
+fonctions:
+-give_order()
+-tchebyshev()
+-tchebyshev_distance()
+-ant_attack()
+
+
+
+'''
 import sys, os
 
 #dictionnary 1
