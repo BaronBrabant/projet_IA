@@ -261,18 +261,22 @@ def ant_attack (dico_2, list_orders) :
     amount_attacks = len(cleaned_list)
     print(amount_attacks)
     amount_attacks = int(amount_attacks)/4
-    amount_attacks = int(amount_attacks)
+    amount_attacks = int(amount_attacks)#
+    
 
+    attack_offset = 0
     for attacks_nb in range(amount_attacks):
+        attacks_nb = attacks_nb + attack_offset
         print(attacks_nb)
-        if thebyshev_distance([cleaned_list[0*attacks_nb],cleaned_list[1*attacks_nb]], [cleaned_list[attacks_nb*2], cleaned_list[attacks_nb*3]]) == True:
+        if thebyshev_distance([cleaned_list[0+attacks_nb],cleaned_list[1+attacks_nb]], [cleaned_list[attacks_nb+2], cleaned_list[attacks_nb+3]]) == True:
             #attacks
             print('attack')
         else:
             print('attack failed')
+        attack_offset += 3
 
     
-ant_attack(dict_2, ['10-12:*11-13', '10-12:*11-15'])
+ant_attack(dict_2, ['10-12:*20-20', '11-12:*11-11'])
 
 
 
