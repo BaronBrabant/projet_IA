@@ -280,3 +280,87 @@ ant_attack(dict_2, ['10-12:*20-20', '11-12:*11-11'])
 
 
 
+
+def movement(dico_2, list_position_earth, order_list):
+    '''
+    This function will take the desired order_list, will check if the inputed position of the wanted ant is correct by checking
+    its position in the list_position_earth and will finally allow the player to move its ant to the desired position if it does 
+    not infringe any game rules such as moving onto a squre filled with earth while already carrying some through the dico2.
+    If the movement is succesful the list inputed as the list_position_earth will be updated with the new game coordinates.
+    This will also use the Tchebychec function directly by checking if any distance is higher than 1 in the tuble returned by the function.
+
+    Parameters
+    __________
+    dico2 : dictionary containing information on the ant such as its health and if it is carrying earth or not (dict)
+    list_position_earth : this is the list containing information on what is happening on every square of the map (list)
+    movement_input : this will be a string under the format r1-c1:*r2-c2 where as many of those orders can be inputed simultaneously as wanted(str)
+    
+    
+
+    version : Benjamin Richter (v1. 22/02/21, v2. 25/02/21)
+    ---------
+    spécification : Benjamin Richter (v1. 21/02/21)
+    '''
+    #this records all legal orders
+    legal_orders = []
+
+    #this uses the imported orders to clean them into coordinates  
+
+    list_wanted = ['0','1','2','3','4','5','6','7','8','9']
+    cleaned_list = []
+
+    for order in order_list:
+        cleaned_list.append('')
+        for character in order:
+            print(character)
+            if character in list_wanted:
+                cleaned_list.append(character)
+            else:
+                cleaned_list.append('') 
+        cleaned_list.append('')
+
+    print(cleaned_list)
+
+    save_nb = ''
+    cleaned_list_2 = []
+    for numbers in cleaned_list:
+        print(numbers)
+        if numbers != '':
+            save_nb = save_nb + numbers 
+        elif numbers == '' and save_nb != '':
+            cleaned_list_2.append(save_nb)
+            save_nb = ''
+
+
+    amount_orders = len(cleaned_list_2)
+    
+    index_order = 0
+    #for index_coordinate in range(amount_orders):
+    #    if index_coordinate
+       
+    separated_list = []
+    for i in range(0, amount_orders, 4):
+        new_list = []
+    
+        for j in range(i, i+4):
+            new_list.append(cleaned_list_2[j])
+
+        separated_list.append(new_list)
+
+    #this checks if the orders are duable and executes them later if they are
+    for coordinates in separated_list:
+        tchebyshev_tuple = tchebyshev([coordinates[0],coordinates[2], coordinates[1],coordinates[3]])
+        print(tchebyshev_tuple)
+        if tchebyshev_tuple[0] <= 1 and tchebyshev_tuple[1] <= 1:
+            legal_orders.append(coordinates)
+
+
+    print(separated_list)
+    print(legal_orders)
+    #print(cleaned_list_2)
+
+
+    #jusqu ici le porgramme rend les ordres lisibles au code et determin si l'ordre est legal ou non
+    #apres ceci le reste de la fonction va regarder les possibilites qui l'empecheraient et l'execute
+movement('a','a',['10-12:@10-12','10-12:@2-20', '10-12:@2-20', '10-12:@2-20'])
+
