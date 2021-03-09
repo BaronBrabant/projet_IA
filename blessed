@@ -1,0 +1,224 @@
+ test mottes (1)
+----------------
+import blessed
+term = blessed.Terminal()
+print(term.home + term.oliverab4 + term.clear)
+print(term.home + term.clear, end='') 
+
+with term.location():
+    print(term.move_xy(1, 1))
+
+print(term.move_down(1) + term.move_right(1) + term.green4('█'))
+print(term.move_right(1) + term.darkgreen('█'))
+print(term.move_right(1) + term.green4('█'))
+print(term.move_right(1) + term.darkgreen('█'))
+print(term.move_right(1) + term.green4('█'))
+
+print(term.move_right(2) + term.move_up(5) + term.darkgreen('█'))
+print(term.move_right(2) + term.green4('█'))
+print(term.move_right(2) + term.darkgreen('█'))
+print(term.move_right(2) + term.green4('█'))
+print(term.move_right(2) + term.darkgreen('█'))
+
+print(term.move_right(3) + term.move_up(5) + term.green4('█'))
+print(term.move_right(3) + term.darkgreen('█'))
+print(term.move_right(3) + term.green4('█'))
+print(term.move_right(3) + term.darkgreen('█'))
+print(term.move_right(3) + term.green4('█'))
+
+print(term.move_right(4) + term.move_up(5) + term.darkgreen('█'))
+print(term.move_right(4) + term.green4('█'))
+print(term.move_right(4) + term.darkgreen('█'))
+print(term.move_right(4) + term.green4('█'))
+print(term.move_right(4) + term.darkgreen('█'))
+
+print(term.move_right(5) + term.move_up(5) + term.green4('█'))
+print(term.move_right(5) + term.darkgreen('█'))
+print(term.move_right(5) + term.green4('█'))
+print(term.move_right(5) + term.darkgreen('█'))
+print(term.move_right(5) + term.green4('█'))
+
+print(term.move_right(6) + term.move_up(5) + term.darkgreen('█'))
+print(term.move_right(6) + term.green4('█'))
+print(term.move_right(6) + term.darkgreen('█'))
+print(term.move_right(6) + term.green4('█'))
+print(term.move_right(6) + term.darkgreen('█'))
+
+print(term.move_right(7) + term.move_up(5) + term.green4('█'))
+print(term.move_right(7) + term.darkgreen('█'))
+print(term.move_right(7) + term.green4('█'))
+print(term.move_right(7) + term.darkgreen('█'))
+print(term.move_right(7) + term.green4('█'))
+
+print(term.move_right(8) + term.move_up(5) + term.darkgreen('█'))
+print(term.move_right(8) + term.green4('█'))
+print(term.move_right(8) + term.darkgreen('█'))
+print(term.move_right(8) + term.green4('█'))
+print(term.move_right(8) + term.darkgreen('█'))
+
+print(term.move_right(9) + term.move_up(5) + term.green4('█'))
+print(term.move_right(9) + term.darkgreen('█'))
+print(term.move_right(9) + term.green4('█'))
+print(term.move_right(9) + term.darkgreen('█'))
+print(term.move_right(9) + term.green4('█'))
+
+print(term.move_right(10) + term.move_up(5) + term.darkgreen('█'))
+print(term.move_right(10) + term.green4('█'))
+print(term.move_right(10) + term.darkgreen('█'))
+print(term.move_right(10) + term.green4('█'))
+print(term.move_right(10) + term.darkgreen('█'))
+
+# test mottes (2)
+------------------
+
+mport blessed
+term = blessed.Terminal()
+print(term.home + term.oliverab4 + term.clear)
+print(term.home + term.clear, end='') 
+
+with term.location():
+    print(term.move_xy(1, 1))
+
+print(term.move_down(1) + term.move_right(1) + term.tan4('█'))
+print(term.move_right(1) + term.tan4('█'))
+print(term.move_right(1) + term.tan4('█'))
+print(term.move_right(1) + term.tan4('█'))
+print(term.move_right(1) + term.tan4('█'))
+
+print(term.move_right(2) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(2) + term.tan4('█'))
+print(term.move_right(2) + term.tan4('█'))
+print(term.move_right(2) + term.tan4('█'))
+print(term.move_right(2) + term.tan4('█'))
+
+print(term.move_right(3) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(3) + term.darkgreen('█'))
+print(term.move_right(3) + term.green4('█'))
+print(term.move_right(3) + term.darkgreen('█'))
+print(term.move_right(3) + term.tan4('█'))
+
+print(term.move_right(4) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(4) + term.green4('█'))
+print(term.move_right(4) + term.darkgreen('█'))
+print(term.move_right(4) + term.green4('█'))
+print(term.move_right(4) + term.tan4('█'))
+
+print(term.move_right(5) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(5) + term.darkgreen('█'))
+print(term.move_right(5) + term.green4('█'))
+print(term.move_right(5) + term.darkgreen('█'))
+print(term.move_right(5) + term.tan4('█'))
+
+print(term.move_right(6) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(6) + term.green4('█'))
+print(term.move_right(6) + term.darkgreen('█'))
+print(term.move_right(6) + term.green4('█'))
+print(term.move_right(6) + term.tan4('█'))
+
+print(term.move_right(7) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(7) + term.darkgreen('█'))
+print(term.move_right(7) + term.green4('█'))
+print(term.move_right(7) + term.darkgreen('█'))
+print(term.move_right(7) + term.tan4('█'))
+
+print(term.move_right(8) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(8) + term.green4('█'))
+print(term.move_right(8) + term.darkgreen('█'))
+print(term.move_right(8) + term.green4('█'))
+print(term.move_right(8) + term.tan4('█'))
+
+print(term.move_right(9) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(9) + term.darkgreen('█'))
+print(term.move_right(9) + term.green4('█'))
+print(term.move_right(9) + term.darkgreen('█'))
+print(term.move_right(9) + term.tan4('█'))
+
+print(term.move_right(10) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(10) + term.tan4('█'))
+print(term.move_right(10) + term.tan4('█'))
+print(term.move_right(10) + term.tan4('█'))
+print(term.move_right(10) + term.tan4('█'))
+
+print(term.move_right(11) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(11) + term.tan4('█'))
+print(term.move_right(11) + term.tan4('█'))
+print(term.move_right(11) + term.tan4('█'))
+print(term.move_right(11) + term.tan4('█'))
+
+#test mottes (2) avec fond tan4
+----------------------------------
+
+import blessed
+term = blessed.Terminal()
+
+with term.cbreak(), term.hidden_cursor():
+    print(term.home + term.black_on_tan4 + term.clear)
+
+with term.location():
+    print(term.move_xy(1, 1))
+
+print(term.move_down(1) + term.move_right(1) + term.tan4('█'))
+print(term.move_right(1) + term.tan4('█'))
+print(term.move_right(1) + term.tan4('█'))
+print(term.move_right(1) + term.tan4('█'))
+print(term.move_right(1) + term.tan4('█'))
+
+print(term.move_right(2) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(2) + term.tan4('█'))
+print(term.move_right(2) + term.tan4('█'))
+print(term.move_right(2) + term.tan4('█'))
+print(term.move_right(2) + term.tan4('█'))
+
+print(term.move_right(3) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(3) + term.darkgreen('█'))
+print(term.move_right(3) + term.green4('█'))
+print(term.move_right(3) + term.darkgreen('█'))
+print(term.move_right(3) + term.tan4('█'))
+
+print(term.move_right(4) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(4) + term.green4('█'))
+print(term.move_right(4) + term.darkgreen('█'))
+print(term.move_right(4) + term.green4('█'))
+print(term.move_right(4) + term.tan4('█'))
+
+print(term.move_right(5) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(5) + term.darkgreen('█'))
+print(term.move_right(5) + term.green4('█'))
+print(term.move_right(5) + term.darkgreen('█'))
+print(term.move_right(5) + term.tan4('█'))
+
+print(term.move_right(6) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(6) + term.green4('█'))
+print(term.move_right(6) + term.darkgreen('█'))
+print(term.move_right(6) + term.green4('█'))
+print(term.move_right(6) + term.tan4('█'))
+
+print(term.move_right(7) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(7) + term.darkgreen('█'))
+print(term.move_right(7) + term.green4('█'))
+print(term.move_right(7) + term.darkgreen('█'))
+print(term.move_right(7) + term.tan4('█'))
+
+print(term.move_right(8) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(8) + term.green4('█'))
+print(term.move_right(8) + term.darkgreen('█'))
+print(term.move_right(8) + term.green4('█'))
+print(term.move_right(8) + term.tan4('█'))
+
+print(term.move_right(9) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(9) + term.darkgreen('█'))
+print(term.move_right(9) + term.green4('█'))
+print(term.move_right(9) + term.darkgreen('█'))
+print(term.move_right(9) + term.tan4('█'))
+
+print(term.move_right(10) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(10) + term.tan4('█'))
+print(term.move_right(10) + term.tan4('█'))
+print(term.move_right(10) + term.tan4('█'))
+print(term.move_right(10) + term.tan4('█'))
+
+print(term.move_right(11) + term.move_up(5) + term.tan4('█'))
+print(term.move_right(11) + term.tan4('█'))
+print(term.move_right(11) + term.tan4('█'))
+print(term.move_right(11) + term.tan4('█'))
+print(term.move_right(11) + term.tan4('█'))
