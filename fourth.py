@@ -10,9 +10,9 @@ player_dict = {1 : {'player_type' : 'AI', 'nb_turns' : 0, 'spawn_level' : 1},
           2 : {'player_type' : 'HUMAN', 'nb_turns' : 0, 'spawn_level' : 1}}
 
 #dictionnary 2
-ant_dict = {'Ant-1' : {'level' : 1, 'health' : 3, 'earth' : False, 'square_id' : 0, 'owner' : 1},
-          'Ant-2' : {'level' : 2, 'health' : 5, 'earth' : False, 'square_id' : 40, 'owner' : 2},
-          'Ant-3' : {'level' : 3, 'health' : 7, 'earth' : False, 'square_id' : 80, 'owner' : 1}}
+ant_dict = {'Ant_1' : {'level' : 1, 'health' : 3, 'earth' : False, 'square_id' : 0, 'owner' : 1},
+          'Ant_2' : {'level' : 2, 'health' : 5, 'earth' : False, 'square_id' : 40, 'owner' : 2},
+          'Ant_3' : {'level' : 3, 'health' : 7, 'earth' : False, 'square_id' : 80, 'owner' : 1}}
 
 
 
