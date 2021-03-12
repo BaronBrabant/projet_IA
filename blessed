@@ -222,7 +222,74 @@ print(term.move_right(11) + term.tan4('█'))
 print(term.move_right(11) + term.tan4('█'))
 print(term.move_right(11) + term.tan4('█'))
 print(term.move_right(11) + term.tan4('█'))
+----------------------------------------------------
+cube!test bord blanc 
 
+ print(term.move_down(1) + term.move_right(1) + term.sienna4('█'))
+    print(term.move_right(1) + term.coral4('█'))
+    print(term.move_right(1) + term.sienna4('█'))
+    print(term.move_right(1) + term.tan4('█'))
+    print(term.move_right(1) + term.sienna4('█'))
+
+    print(term.move_right(2) + term.move_up(5) + term.tan4('█'))
+    print(term.move_right(2) + term.sienna4('█'))
+    print(term.move_right(2) + term.coral4('█'))
+    print(term.move_right(2) + term.sienna4('█'))
+    print(term.move_right(2) + term.tan4('█'))
+
+    print(term.move_right(3) + term.move_up(5) + term.sienna4('█'))
+    print(term.move_right(3) + term.tan4('█'))
+    print(term.move_right(3) + term.sienna4('█'))
+    print(term.move_right(3) + term.coral4('█'))
+    print(term.move_right(3) + term.sienna4('█'))
+
+    print(term.move_right(4) + term.move_up(5) + term.tan4('█'))
+    print(term.move_right(4) + term.sienna4('█'))
+    print(term.move_right(4) + term.tan4('█'))
+    print(term.move_right(4) + term.sienna4('█'))
+    print(term.move_right(4) + term.coral4('█'))
+
+    print(term.move_right(5) + term.move_up(5) + term.coral4('█'))
+    print(term.move_right(5) + term.tan4('█'))
+    print(term.move_right(5) + term.sienna4('█'))
+    print(term.move_right(5) + term.tan4('█'))
+    print(term.move_right(5) + term.sienna4('█'))
+
+    print(term.move_right(6) + term.move_up(5) + term.tan4('█'))
+    print(term.move_right(6) + term.coral4('█'))
+    print(term.move_right(6) + term.tan4('█'))
+    print(term.move_right(6) + term.sienna4('█'))
+    print(term.move_right(6) + term.tan4('█'))
+
+    print(term.move_right(7) + term.move_up(5) + term.sienna4('█'))
+    print(term.move_right(7) + term.tan4('█'))
+    print(term.move_right(7) + term.coral4('█'))
+    print(term.move_right(7) + term.tan4('█'))
+    print(term.move_right(7) + term.sienna4('█'))
+
+    print(term.move_right(8) + term.move_up(5) + term.tan4('█'))
+    print(term.move_right(8) + term.sienna4('█'))
+    print(term.move_right(8) + term.tan4('█'))
+    print(term.move_right(8) + term.coral4('█'))
+    print(term.move_right(8) + term.tan4('█'))
+
+    print(term.move_right(9) + term.move_up(5) + term.sienna4('█'))
+    print(term.move_right(9) + term.tan4('█'))
+    print(term.move_right(9) + term.sienna4('█'))
+    print(term.move_right(9) + term.tan4('█'))
+    print(term.move_right(9) + term.coral4('█'))
+
+    print(term.move_right(10) + term.move_up(5) + term.coral4('█'))
+    print(term.move_right(10) + term.sienna4('█'))
+    print(term.move_right(10) + term.tan4('█'))
+    print(term.move_right(10) + term.sienna4('█'))
+    print(term.move_right(10) + term.tan4('█'))
+
+    print(term.move_right(11) + term.move_up(5) + term.grey('█'))
+    print(term.move_right(11) + term.grey('█'))
+    print(term.move_right(11) + term.grey('█'))
+    print(term.move_right(11) + term.grey('█'))
+    print(term.move_right(11) + term.grey('█')) 
 --------------------------------------------------
 from math import floor
 from blessed import Terminal
