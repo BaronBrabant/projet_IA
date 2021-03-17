@@ -88,7 +88,7 @@ while True:
     #print(term.move_yx(row, col) + term.red + term.on_rosybrown2 + '●' + term.normal, end='', flush=True)
 
     
- _______________________________________________________________________ 
+  #_______________________________________________________________________ 
 
 import blessed
 term = blessed.Terminal()
