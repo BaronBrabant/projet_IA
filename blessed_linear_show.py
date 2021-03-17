@@ -86,3 +86,39 @@ while True:
     
     # move cursor + change color of symbol + change color of background + symbol + back to normal
     #print(term.move_yx(row, col) + term.red + term.on_rosybrown2 + '●' + term.normal, end='', flush=True)
+
+    
+ _______________________________________________________________________ 
+
+import blessed
+term = blessed.Terminal()
+print(term.home + term.green4 + term.clear)
+print(term.home + term.clear, end='') 
+
+
+
+y = 1
+for i in range(5):
+    x = 1
+    print(term.move_xy(x, y) + term.sienna4("x--------x"), end=' ') 
+    y += 1
+    print(term.move_xy(x, y) + term.sienna4("|         |"), end=' ')
+    y += 1
+    print(term.move_xy(x, y) + term.sienna4("|    a    |"), end=' ')
+    y += 1
+    print(term.move_xy(x, y) + term.sienna4("|         |"), end=' ')
+    y += 1
+    print(term.move_xy(x, y) + term.sienna4("x--------x"), end=' ')
+    
+    for i in range(5):
+        x += 8
+        y -= 4
+        print(term.move_xy(x, y) + term.sienna4("x--------x"), end=' ')
+        y += 1
+        print(term.move_xy(x, y) + term.sienna4("|        |"), end=' ')
+        y += 1
+        print(term.move_xy(x, y) + term.sienna4("|    a   |"), end=' ')
+        y += 1
+        print(term.move_xy(x, y) + term.sienna4("|        |"), end=' ')
+        y += 1
+        print(term.move_xy(x, y) + term.sienna4("x--------x"), end=' ')
