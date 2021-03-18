@@ -92,33 +92,39 @@ while True:
 
 import blessed
 term = blessed.Terminal()
-print(term.home + term.green4 + term.clear)
+
 print(term.home + term.clear, end='') 
 
-
-
-y = 1
-for i in range(5):
-    x = 1
-    print(term.move_xy(x, y) + term.sienna4("x--------x"), end=' ') 
+y = 8
+for i in range(20):
+    x = 50
+    print(term.move_xy(x, y) + term.sienna4("xx===xx"), end=' ') 
     y += 1
-    print(term.move_xy(x, y) + term.sienna4("|         |"), end=' ')
+    print(term.move_xy(x, y) + term.sienna4("||   ||"), end=' ')
     y += 1
-    print(term.move_xy(x, y) + term.sienna4("|    a    |"), end=' ')
-    y += 1
-    print(term.move_xy(x, y) + term.sienna4("|         |"), end=' ')
-    y += 1
-    print(term.move_xy(x, y) + term.sienna4("x--------x"), end=' ')
+    print(term.move_xy(x, y) + term.sienna4("xx===xx"), end=' ')
+    y += 0
+   
     
-    for i in range(5):
-        x += 8
-        y -= 4
-        print(term.move_xy(x, y) + term.sienna4("x--------x"), end=' ')
+    for i in range(20):
+        x += 5
+        y -= 2
+        print(term.move_xy(x, y) + term.sienna4("xx===xx"), end=' ')
         y += 1
-        print(term.move_xy(x, y) + term.sienna4("|        |"), end=' ')
+        print(term.move_xy(x, y) + term.sienna4("||   ||"), end=' ')
         y += 1
-        print(term.move_xy(x, y) + term.sienna4("|    a   |"), end=' ')
-        y += 1
-        print(term.move_xy(x, y) + term.sienna4("|        |"), end=' ')
-        y += 1
-        print(term.move_xy(x, y) + term.sienna4("x--------x"), end=' ')
+        print(term.move_xy(x, y) + term.sienna4("xx===xx"), end=' ')
+
+        
+#exemple   
+print(term.move_xy(52, 9) + term.on_seagreen("🐜"), end=' ')
+print(term.move_xy(57, 9) + term.sienna4("🐜"), end=' ')
+print(term.move_xy(63, 11) + term.sienna4("☐"), end=' ')
+
+
+#compteur_point_tour    
+print(term.move_xy(75, 2) + term.sienna4("x====================================================x"), end=' ') 
+print(term.move_xy(75, 3) + term.sienna4("||                        ||                        ||"), end=' ')
+print(term.move_xy(75, 4) + term.sienna4("x====================================================x"), end=' ')
+print(term.move_xy(90, 5) + term.sienna4("||                  ||"), end=' ')
+print(term.move_xy(90, 6) + term.sienna4("x====================x"), end=' ')
