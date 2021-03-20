@@ -1,0 +1,91 @@
+def change_to_random_direction(xs,ys, grid_dico, player_dico,term):
+    """
+    This function is the first try of the dumb AI.
+    #add comment
+
+    Parameters
+    ----------
+    xs :
+    ys : 
+    player_dico : player’s dictionnary containing ant's information (dico)
+    grid_dico   : dico with the grid information ; anthills, clods (dico)
+    term        : terminal object from the blessed module (term)
+
+    Return
+    ------
+    player_dico : player’s dictionnary containing ant's information (dico)
+
+    if (xs, ys) in player_dico['Player1']:
+       player = 'Player1'
+       color = BG_RED
+    else:
+       player = 'Player2'
+       color = BG_BLUE
+
+    strength = player_dico[player][(xs,ys)]['strength']
+    life = player_dico[player][(xs,ys)]['life']
+
+    del  player_dico[player][(xs,ys)]
+
+    grid_x = grid_dico['size'][0]
+    grid_y = grid_dico['size'][1]
+
+    direction = (' ','N','NE','E','SE','S','SO','O','NO')
+
+    target_empty=False
+    while not target_empty:
+        num = random.randint(0,len(direction)-1)
+
+        xt, yt = xs, ys
+
+        if direction[num] == 'N' :
+            if yt > 1 : yt-=1
+        elif direction[num] == 'NE' :
+            if xt < grid_x : xt+=1
+            if yt > 1 : yt-=1
+        elif direction[num] == 'E' :
+            if xt < grid_x : xt+=1
+        elif direction[num] == 'SE' :
+            if xt < grid_x :  xt+=1
+            if yt < grid_y  : yt+=1
+        elif direction[num] == 'S' :
+            if yt < grid_y : yt+=1
+        elif direction[num] == 'SO' :
+            if xt > 1 : xt-=1
+            if yt < grid_y : yt+=1
+        elif direction[num] == 'O' :
+            if xt > 1 : xt-=1
+        elif direction[num] == 'NO' :
+            if xt > 1 : xt-=1
+            if yt > 1 : yt-=1
+
+        if (xt, yt) not in player_dico['Player1'] and (xt, yt) not in player_dico['Player2']:
+            target_empty=True
+
+    player_dico[player][(xt,yt)]={}
+    player_dico[player][(xt,yt)]['strength']=strength
+    player_dico[player][(xt,yt)]['life']=life
+
+    if (xs, ys) in grid_dico['clods'] :
+        clod_type = grid_dico['clods'][(xs,ys)]['weight']
+        set_grid_item(xs, ys, ' '+BG_YELLOW+CLOD_LIST[clod_type-1]+END_COLOR+' ',term )
+    elif ( xs, ys ) in grid_dico['anthills']:
+        if ( xs, ys ) == grid_dico['anthills'][0] :
+            set_grid_item(xs, ys, BG_RED+ANTHILLS+END_COLOR+' ',term)
+        else:
+            set_grid_item(xs, ys, BG_BLUE+ANTHILLS+END_COLOR+' ',term)
+    else:
+        set_grid_item(xs, ys, '   ',term)
+
+    if ( xt, yt ) in grid_dico['clods'] :
+        clod_type = grid_dico['clods'][(xt,yt)]['weight']
+        set_grid_item(xt, yt, ' '+BG_YELLOW+CLOD_LIST[clod_type-1]+color+ANT+END_COLOR,term )
+    elif ( xt, yt ) in grid_dico['anthills'] :
+        if ( xt, yt ) == grid_dico['anthills'][0] :
+            set_grid_item(xt, yt, BG_RED+ANTHILLS+color+ANT+END_COLOR+' ',term )
+        else:
+            set_grid_item(xt, yt, BG_BLUE+ANTHILLS+color+ANT+END_COLOR+' ',term )
+    else:
+        set_grid_item(xt, yt, ' '+color+ANT+END_COLOR+' ',term )
+
+    return player_dico
