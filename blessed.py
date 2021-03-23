@@ -134,7 +134,7 @@ print(term.move_xy(90, 6) + term.sienna4("x====================x"), end=' ')
 #V2
 import blessed
 term = blessed.Terminal()
-map_position = [[0, 0, 1, None, 0], [1, 0, 2, None, 0], [2, 0, 3, None, 0], [3, 0, 4, None, 0], [4, 0, 5, None, 0], [5, 0, 6, None, 0], [6, 0, 7, None, 0], [7, 0, 8, None, 0], [8, 0, 9, None, 0], [9, 0, 10, None, 0], [10, 0, 11, None, 0], [11, 0, 12, None, 0], [12, 0, 13, None, 0], [13, 0, 14, None, 0], [14, 0, 15, None, 0], [15, 0, 16, None, 0], [16, 0, 17, None, 0], [17, 0, 18, None, 0], [18, 0, 19, None, 0], [19, 0, 20, None, 0], [0, 1, 21, None, 0], [1, 1, 22, None, 0], [2, 1, 23, None, 0], [3, 1, 24, None, 0], [4, 1, 25, None, 0], [5, 1, 26, None, 0], [6, 1, 27, None, 0], [7, 1, 28, None, 0], [8, 1, 29, None, 0], [9, 1, 30, None, 0], [10, 1, 31, None, 0], [11, 1, 32, None, 0], [12, 1, 33, None, 0], [13, 1, 34, None, 0], [14, 1, 35, None, 0], [15, 1, 36, None, 0], [16, 1, 37, None, 0], [17, 1, 38, None,
+map_position = [[0, 0, 1, None, 0], [1, 0, 2, 'Ant-1', 0], [2, 0, 3, None, 0], [3, 0, 4, None, 0], [4, 0, 5, None, 0], [5, 0, 6, None, 0], [6, 0, 7, None, 0], [7, 0, 8, None, 0], [8, 0, 9, None, 0], [9, 0, 10, None, 0], [10, 0, 11, None, 0], [11, 0, 12, None, 0], [12, 0, 13, None, 0], [13, 0, 14, None, 0], [14, 0, 15, None, 0], [15, 0, 16, None, 0], [16, 0, 17, None, 0], [17, 0, 18, None, 0], [18, 0, 19, None, 0], [19, 0, 20, None, 0], [0, 1, 21, None, 0], [1, 1, 22, None, 0], [2, 1, 23, None, 0], [3, 1, 24, None, 0], [4, 1, 25, None, 0], [5, 1, 26, None, 0], [6, 1, 27, None, 0], [7, 1, 28, None, 0], [8, 1, 29, None, 0], [9, 1, 30, None, 0], [10, 1, 31, None, 0], [11, 1, 32, None, 0], [12, 1, 33, None, 0], [13, 1, 34, None, 0], [14, 1, 35, None, 0], [15, 1, 36, None, 0], [16, 1, 37, None, 0], [17, 1, 38, None,
 0], [18, 1, 39, None, 0], [19, 1, 40, None, 0], [0, 2, 41, None, 0], [1, 2, 42, None, 0], [2, 2, 43, None, 0], [3, 2, 44, None, 0], [4, 2, 45, None, 0], [5, 2, 46, None, 0], [6, 2, 47, None, 0], [7, 2, 48, None, 0], [8, 2, 49, None, 0], [9, 2, 50, None, 0], [10, 2, 51, None, 0], [11, 2, 52, None, 0], [12, 2, 53, None, 0], [13, 2, 54, None, 0], [14, 2, 55, None, 0], [15, 2, 56, None, 0], [16, 2, 57,
 None, 0], [17, 2, 58, None, 0], [18, 2, 59, None, 0], [19, 2, 60, None, 0], [0, 3, 61, None, 0], [1, 3, 62, None, 0], [2, 3, 63, None, 0], [3, 3, 64, 'Anthill\x01', 0], [4, 3, 65, None, 0], [5, 3, 66,
 None, 0], [6, 3, 67, None, 0], [7, 3, 68, None, 0], [8, 3, 69, None, 0], [9, 3, 70, None, 0], [10, 3, 71, None, 0], [11, 3, 72, None, 0], [12, 3, 73, None, 0], [13, 3, 74, None, 0], [14, 3, 75, None, 0], [15, 3, 76, None, 0], [16, 3, 77, None, 0], [17, 3, 78, None, 0], [18, 3, 79, None, 0], [19, 3, 80, None, 0], [0, 4, 81, None, 0], [1, 4, 82, None, 0], [2, 4, 83, None, 0], [3, 4, 84, None, 0], [4,
@@ -176,11 +176,25 @@ for i in range(20):
         y += 1
         print(term.move_xy(x, y) + term.sienna4("xx===xx"), end=' ')
 
+
+list_x = []
+list_y = []
+
+for i in range (10):
+    if map_position[i][0] != None and 'Anthill\x01' and 'Anthill\x02':
+        list_x.append(map_position[i][0])
+        list_y.append(map_position[i][1])
+for i in range(len(list_x)):
+    print(term.move_xy(list_x[i], list_y[i]) + term.on_seagreen("🐜"), end=' ')
+
         
 #exemple   
-print(term.move_xy(x, y) + term.on_seagreen("🐜"), end=' ')
-print(term.move_xy(57, 9) + term.sienna4("🐜"), end=' ')
-print(term.move_xy(63, 11) + term.sienna4("☐"), end=' ')
+
+#print(term.move_xy(57, 9) + term.sienna4("🐜"), end=' ')
+#print(term.move_xy(63, 11) + term.sienna4("☐"), end=' ')
+
+
+
 
 
 #compteur_point_tour    
@@ -189,5 +203,4 @@ print(term.move_xy(75, 3) + term.sienna4("||                        ||          
 print(term.move_xy(75, 4) + term.sienna4("x====================================================x"), end=' ')
 print(term.move_xy(90, 5) + term.sienna4("||                  ||"), end=' ')
 print(term.move_xy(90, 6) + term.sienna4("x====================x"), end=' ')
-
 
