@@ -240,7 +240,7 @@ def give_orders(game_status):
     game_status : this is a boolean value to determin if the game is over or not (bool)
     orders : string of charcaters which will be translated to orders (str)
 
-    version : Benjamin Richter (v1. 23/02/2021)
+    version : Benjamin Richter and Manu Van Hoofstadt (v1. 23/02/2021)
     ---------
     spécification : Benjamin Richter (v1. 21/02/21)
     '''
@@ -372,7 +372,7 @@ def tchebyshev(coordinates):
 
     return:
     tchebyshev_distance : (tuple)
-    version : Benjamin Richter (v1. 23/02/2021)
+    version : Benjamin Richter and Manu Van Hoofstadt (v1. 23/02/2021)
     ---------
     spécification : Frédéric Sauvage (v1. 21/02/21)
     """
@@ -408,7 +408,6 @@ def thebyshev_distance(coordinates_agressor, coordinates_defender) :
     return :
     posibility_attack : the ants can attack or not (bool)
 
-    spécification : Frédéric Sauvage (v1. 21/02/21)
     version : Benjamin Richter (v1. 23/02/2021)
     ---------
     spécification : Frédéric Sauvage (v1. 21/02/21)
@@ -436,7 +435,7 @@ def ant_attack (ant_dict, list_orders, player):
     ant_dict : take the first element in ant_dict(int)
     return:
     ant_dict : replace second value in liste for eash ant life point less attack (int)
-    version : Benjamin Richter (v1. 23/02/2021)
+    version : Benjamin Richter and Julien Emegenbirn (v1. 23/02/2021)
     ---------
     spécification : Frédéric Sauvage, Julien Emegenbirn (v1. 21/02/21)
     """
@@ -786,7 +785,7 @@ def motte_de_terre(ant_dict, list_orders):
     
     :return:
     ant_charge : If the ant as already a motte (bool)
-    Version :
+    Version : Julien Emegenbirn (v1. 24/02/2021)
     ---------
     Specification : Julien Emegenbirn (v1. 19/02/2021)
     """
@@ -865,7 +864,7 @@ def ant_spawn(player_dict, level_ant_1, level_ant_2):
     
     :return:
     new_ant : add a new list in the dico_2 (list)
-    Version :
+    Version : Benjamin Richter and Julien Emegenbirn (v1.23/02/2021)
     ---------
     Specification : Julien Emegenbirn (v1. 19/02/2021)
     """
@@ -904,7 +903,7 @@ def ant_level(anthills_square_ids):
     full_cases : number of cases with a motte (int)
     ant_spawn_level : level of the new ant (int)
     
-    Version :
+    Version :Julien Emegenbirn (v1. 24/02/2021)
     Specification : Julien Emegenbirn (v1. 19/02/2021)
     ---------
     """
