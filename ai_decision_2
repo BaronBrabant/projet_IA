@@ -1,0 +1,1228 @@
+from random import randint
+
+import sys, os
+import blessed
+term = blessed.Terminal()
+print(term.home + term.clear, end='')
+
+#NOtE TO SELF
+#the attack function works now you just need to make the end of the order function  remove dead ants
+
+
+#dictionnary 1
+player_dict = {1 : {'player_type' : 'AI', 'nb_turns' : 0, 'spawn_level' : 1},
+          2 : {'player_type' : 'HUMAN', 'nb_turns' : 0, 'spawn_level' : 1}}
+
+#dictionnary 2
+ant_dict = {}
+
+anthill_1 = 0
+anthill_2 = 0
+
+
+
+
+
+def map_generator(cpx_file):
+    '''
+    This function will serve to read the information off of the cpx file and create the map which is our
+    position tracker for the game ie the map_position.
+
+    Parameter
+    _________
+    cpx_file : this file will contain the data containing the map size, anthill and clods (cpx)
+
+    Return
+    ______
+    map_position : list of position of every square on the map enabling the rest of the function to find elements on the map(map_position)
+    '''
+
+    #the map size, anthill position and location of earth will be added separatly
+
+    fh = open(cpx_file, 'r')
+    cpx_string = fh.readlines()
+    fh.close()
+    
+    #print(cpx_string)
+    
+
+    map_coord = cpx_string[1]
+    anthill_coord = cpx_string[3:5]
+    clods_coord = cpx_string[6:]
+    #print(clods_coord)
+    #print(map_coord)
+    #print(anthill_coord)
+    #print(clods_coord)
+    information_clean = []
+    cleaned_row = ''
+    cleand_column = ''
+    state = 'row'
+
+    wanted_strings = ['0','1','2','3','4','5','6','7','8','9']
+
+    for letters in map_coord:
+        if letters in wanted_strings and state == 'row':
+            cleaned_row += letters
+        elif letters == ' ':
+            state = 'column'
+        elif letters in wanted_strings and state == 'column':
+            cleand_column += letters
+
+    information_clean.append(cleaned_row)
+    information_clean.append(cleand_column)
+    
+
+    cleaned_row = ''
+    cleand_column = ''
+
+    state = 'row'
+
+    for letters_1 in anthill_coord:
+        state = 'row'
+        for character in letters_1:
+            #print(state, character, 'this is the cleaned' ,cleand_column)
+            if character in wanted_strings and state == 'row':
+                cleaned_row += character
+            elif character == ' ':
+                state = 'column'
+                information_clean.append(cleaned_row)
+                cleaned_row = ''
+            elif character in wanted_strings and state == 'column':
+                #print('executed an added', cleand_column)
+                cleand_column += character
+            
+        information_clean.append(cleand_column)
+        cleand_column = ''
+    
+
+    cleaned_row = ''
+    cleand_column = ''
+    weight_clods = ''
+    index_clods_info = 0
+
+    state = 'row'
+
+    for letters_2 in clods_coord:
+        #print(letters_2, 'these are the letter')
+        index_clods_info = 0
+        for character_clods in letters_2:
+            
+            if index_clods_info > 2:
+                index_clods_info = 0
+
+            if index_clods_info == 0:
+                state = 'row'
+            elif index_clods_info == 1:
+                state ='column'
+            elif index_clods_info == 2:
+                state = 'weight'
+            
+
+            if character_clods == ' ':
+                index_clods_info += 1                           
+            elif character_clods in wanted_strings and state == 'row':
+                cleaned_row += character_clods
+            elif character_clods in wanted_strings and state == 'column':
+                #print('executed an added', cleand_column)
+                cleand_column += character_clods
+            elif character_clods in wanted_strings and state == 'weight':
+                weight_clods += character_clods
+
+
+        #print(cleaned_row, 'this the row')
+        #print(cleand_column)      
+        information_clean.append(cleaned_row)
+        information_clean.append(cleand_column)
+        information_clean.append(weight_clods)
+        cleand_column = ''
+        cleaned_row = ''
+        weight_clods = ''
+    
+    
+    
+    #for anthill_index in range(2):
+        
+    #!!!!! the inforamation_clean variable is a list containing the map dimesion in the index 0 and 1,
+    # the anthill position in index 2 to 5 where the first pair is the coordianates of the anthill 1 and the latter is the same for player 2,
+    # the rest of the coordinates have to be broken up in groups of 3 corresponding to the row, column and the weight of the earth
+    
+
+
+
+    
+    #this strip of code initilizes the map and gets it ready to be filled 
+    map_col_dim = int(information_clean[0])
+    map_row_dim = int(information_clean[1])
+    map_position = []
+    index_square = 1
+    for i in range(map_row_dim):  
+        for j in range(map_col_dim):
+            map_position.append([j, i, index_square, None, 0])
+            index_square += 1
+    #map_position[3, 3, 0]
+    
+
+    #this is what places the anthills
+
+    coord_anthill_1 = information_clean[2:4]
+    coord_anthill_2 = information_clean[4:6]
+    
+    #this calculates the position of the ant in order to find the map_position index
+    square_id_anthill_1 = int(coord_anthill_1[1])*map_col_dim + int(coord_anthill_1[0])
+    square_id_anthill_2 = int(coord_anthill_2[1])*map_col_dim + int(coord_anthill_2[0])
+
+    #print(square_id_anthill_1, 'this is the result')
+
+    #this sets the position of both anthills in the main map list
+    #map_position[square_id_anthill_1][3] = 'Anthill\1'
+    #map_position[square_id_anthill_2][3] = 'Anthill\2'
+
+    anthill_1 = square_id_anthill_1
+    anthill_2 = square_id_anthill_2
+    
+    #this part iterates through a set of 3 indexes corresponding to the column, row and weight of clod
+
+    #this figres out how many orders there are
+
+    length_order = len(information_clean[6:])
+    
+   
+    
+    for group_3 in range(6, length_order+1, 3):
+        temp_calc = []
+        for iterator in range(3):
+            temp_calc.append(information_clean[group_3+iterator])
+        square_id = int(temp_calc[1])*map_col_dim + int(temp_calc[0])
+       
+        weight = int(temp_calc[2])
+        map_position[square_id][4] = weight
+
+
+    #print(map_position)
+    #print(information_clean)
+
+    map_position = [map_position, anthill_1, anthill_2]
+
+    return map_position
+    
+#map_generator(r'C:\Users\benny\OneDrive\Desktop\project ia\small.cpx')
+
+
+
+#test on dictionnary
+#print(player_dict[2]['player_type'])
+
+
+#List anthill for level of spawn 
+anthill_1_earth = [False,False,False,False,True,False,False,False]
+anthill_1_earth = [False,False,False,False,True,False,False,False]
+
+
+
+
+#list to remember health points per level, where index are the levels
+attack_list = [[0, 0], [1, 1], [2, 2], [3, 3]]
+
+def give_orders(game_status):
+    '''
+    This will be the sole function with an input and will serve as an interface for the game to give all orders at the same time.
+    These will be chains of characters which if formated correctly in the form r1-c1:*r2-c2, r1-c1:@r2-c2, r1-c1:lift or r1-c1:drop will be 
+    interpreted by the game to execute orders and send the order to the correct function to be executed.
+
+    orders:
+    * = attack
+    @ = movement 
+    lift = lift motte
+    drop = //
+
+    Parameters
+    __________
+    game_status : this is a boolean value to determin if the game is over or not (bool)
+    orders : string of charcaters which will be translated to orders (str)
+
+    version : Benjamin Richter (v1. 23/02/2021)
+    ---------
+    spécification : Benjamin Richter (v1. 21/02/21)
+    '''
+
+    if game_status == False:
+        used_ants = []
+        #this first part of the function is going to either be the input of interpret the order
+        orders_string = ai_decision(ant_dict, map_position, anthill_1 )
+        order_string_2 = input('Please input orders') # <--- input in another function difficulty playing ai 
+        if orders_string != '':
+            #this part needs to clean the string to interpret the order
+            #it will do this by separating the string at every empty space ''
+            list_indiviudal_orders = []
+            list_attack = []
+            list_movement = []
+            list_drop_lift = []
+            
+
+
+            list_indiviudal_orders.append(orders_string.split(' '))
+    
+
+            for chacaracter_list in list_indiviudal_orders[0]:
+                #print(chacaracter_list)
+                #print('evolution sort', list_movement)
+                #this is to make sure that the code only accepts one order at time and to ingore wrongly formatted orders
+               
+                
+                for character in chacaracter_list:
+                    #This is going to go through each list and recognise the orders
+                    #when it recognises the order it sends them to each function 
+                    #and executes them 
+                    if character == 'd' or character == 'l':
+                        #this will be drop
+                        list_drop_lift.append(chacaracter_list)
+                        print(list_attack, 'IF THIS DOESNT WORK I DUNNO)')
+             
+                    if character == '*':
+                        #print('attack')
+                        #this will be attack
+                        list_attack.append(chacaracter_list)
+                        
+                        
+                    if character == '@':
+                        #print('yes')
+                        #this will be a  movement
+                        #send list containing order to the movement()
+                        list_movement.append(chacaracter_list)
+                
+            #here needs to be the ai function which will add its orders to the list and process them at the same time
+            if list_drop_lift != []:
+                motte_de_terre(ant_dict, list_drop_lift)
+            #HERE GOES DROP LIFT FUNCTION <---------
+            ant_attack(ant_dict, list_attack, '1')
+            #ant_attack()
+            movement(ant_dict, map_position, list_movement, '1')
+
+        player_dict[1]['nb_turns'] = player_dict[1]['nb_turns'] + 1
+
+        used_orders = []
+        if order_string_2 != '':
+            #this part needs to clean the string to interpret the order
+            #it will do this by separating the string at every empty space ''
+            list_indiviudal_orders = []
+            list_attack = []
+            list_movement = []
+            list_drop_lift = []
+            
+
+
+            list_indiviudal_orders.append(order_string_2.split(' '))
+    
+
+            for chacaracter_list in list_indiviudal_orders[0]:
+                #print(chacaracter_list)
+                #print('evolution sort', list_movement)
+                #this is to make sure that the code only accepts one order at time and to ingore wrongly formatted orders
+               
+                
+                for character in chacaracter_list:
+                    #This is going to go through each list and recognise the orders
+                    #when it recognises the order it sends them to each function 
+                    #and executes them 
+                    if character == 'd' or character == 'l':
+                        #print('lift, drop')
+                        list_drop_lift.append(chacaracter_list)
+                        #print(list_attack, 'IF THIS DOESNT WORK I DUNNO)')
+             
+                    if character == '*':
+                        #print('attack')
+                        #this will be attack
+                        list_attack.append(chacaracter_list)
+                        
+                        
+                    if character == '@':
+                        
+                        #this will be a  movement
+                        #send list containing order to the movement()
+                        list_movement.append(chacaracter_list)
+                
+ 
+            if list_drop_lift != []:
+                motte_de_terre(ant_dict, list_drop_lift)
+         
+            ant_attack(ant_dict, list_attack, '2')
+           
+            movement(ant_dict, map_position, list_movement, '2')
+
+        player_dict[2]['nb_turns'] = player_dict[2]['nb_turns'] + 1
+    
+            
+
+
+    #print(list_indiviudal_orders)
+    #print(list_movement)
+
+#test for order function 
+#give_orders(False)
+
+
+def tchebyshev(coordinates):
+    """
+    This function calculates the Tchebyshev distance by 
+    taking the c1,c2,r1 and r2 position to caluclate the distance between the given points
+    
+    parameters :
+    ------------
+    coordinates : list of four position values that the function needs (list)
+
+    return:
+    tchebyshev_distance : (tuple)
+    version : Benjamin Richter (v1. 23/02/2021)
+    ---------
+    spécification : Frédéric Sauvage (v1. 21/02/21)
+    """
+
+    tchebyshev_x1 = int(coordinates[0])
+    tchebyshev_x2 = int(coordinates[1])
+    tchebyshev_y1 = int(coordinates[2])
+    tchebyshev_y2 = int(coordinates[3])
+
+    net_x = tchebyshev_x2 - tchebyshev_x1
+    net_y = tchebyshev_y2 - tchebyshev_y1
+
+    if net_x < 0:
+        net_x = net_x*-1
+
+    if net_y < 0:
+        net_y = net_y*-1
+
+    tchebyshev_tuple = (net_x, net_y)
+
+    return tchebyshev_tuple
+
+
+def thebyshev_distance(coordinates_agressor, coordinates_defender) :
+    """
+    This function takes the map_position to find the position of the ant and calculates if the wanted attack is in range, if not 
+    the order will be ignored.
+    
+    parameters :
+    ------------
+    map_position : take the player and the second element of the map_position (int)
+    tchebyshev : take position x,y(tuple)
+    return :
+    posibility_attack : the ants can attack or not (bool)
+
+    spécification : Frédéric Sauvage (v1. 21/02/21)
+    version : Benjamin Richter (v1. 23/02/2021)
+    ---------
+    spécification : Frédéric Sauvage (v1. 21/02/21)
+    """
+
+    #this has to start by looking at the origin coordinates and
+    #find about which ant it is talking about 
+    coordinates = [coordinates_agressor[0], coordinates_defender[0], coordinates_agressor[1], coordinates_defender[1]]
+    
+    tchebyshev_tuple = tchebyshev(coordinates)
+    if tchebyshev_tuple[0] > 3 or tchebyshev_tuple[1] > 3:
+        return False
+    else:
+        return True 
+
+
+#still needs to delete dead ants after round is done
+def ant_attack (ant_dict, list_orders, player):
+    """
+    This function uses the tchebyshev_distance() function to calculate the possibilty of the shot 
+    and if succesful removes life points from ants in the ant_dict.
+    parameters : 
+    ------------
+    Tchebyshev_distance : take position x,y(tuple)
+    ant_dict : take the first element in ant_dict(int)
+    return:
+    ant_dict : replace second value in liste for eash ant life point less attack (int)
+    version : Benjamin Richter (v1. 23/02/2021)
+    ---------
+    spécification : Frédéric Sauvage, Julien Emegenbirn (v1. 21/02/21)
+    """
+
+    #this will receive a list of orders, it will figure out how many orders there are,
+    #will seperate the row and column positions for who is attacking who and will feed
+    #it to the Tchebyshev function in order check if the enemy is in range or not
+    #if the enemy is in range it will confirm the order and execute them all simoulantiousely
+
+    #10-10:*12-12
+    #print('this is the health before')
+    
+
+    new_list1 = []
+    list_unwanted = ['-', ':', '*']
+    list_length = len(list_orders)
+    #print(list_orders, 'this is how the order arrives')
+
+    for i in range(list_length):
+        new_list1.append('')
+        for character in list_orders[i]:
+            #print(character)
+            if character not in list_unwanted:
+                new_list1.append(character)
+            else:
+                new_list1.append('')
+    new_list1.append('')
+    
+
+    save_nb = ''
+    cleaned_list = []
+    for numbers in new_list1:
+        #print(numbers)
+        if numbers != '':
+            save_nb = save_nb + numbers 
+        elif numbers == '' and save_nb != '':
+            cleaned_list.append(save_nb)
+            save_nb = ''
+
+    #this shows the given list and how the data looks when inputed
+    #print(list_orders)   
+
+    #this shows the data after it has been 'cleaned'
+    #print(new_list1)
+
+    #this shows the cleaned data put back together for the game to use
+    #print(cleaned_list, 'this shows me if the probeleme is within the cleaner or not')
+
+    #now we can use the cleaned data to find how many order are given 
+    #and call the tchebychez and according amount of times
+
+
+    #IMPORTANT 
+    #An attack is a set of 4 coordinates so attacks_nb = 4 represents one attack and attack_nb = 16 is 4 attacks
+    amount_attacks = len(cleaned_list)
+    #print('amount attacks',amount_attacks)
+    amount_attacks = int(amount_attacks)/4
+    amount_attacks = int(amount_attacks)
+
+    #IMPORTANT 
+    #An attack is a set of 4 coordinates so attacks_nb = 4 represents one attack and attack_nb = 16 is 4 attacks
+    #This is done to let the code iterate through the four coordinates at a time and check if the order is legal
+    
+
+    attack_offset = 0
+    #(amount_attacks, 'this is was stopping the function from starting')
+    
+    for attacks_nb in range(0, amount_attacks):
+        
+        attacks_nb = attacks_nb + attack_offset
+        #print(attacks_nb)
+
+        column_1 = attacks_nb + 0
+        row_1 = attacks_nb + 1
+        column_2 = attacks_nb + 2
+        row_2 = attacks_nb + 3
+
+        attack_coord = [cleaned_list[column_1], cleaned_list[row_1]]
+        
+        if attack_coord not in used_orders:
+            
+            if thebyshev_distance([cleaned_list[column_1],cleaned_list[row_1]], [cleaned_list[column_2], cleaned_list[row_2]]) == True:
+                #attacks
+                #print('attack')
+                #this snippets checks who's turn it is 
+                square_id_att = int(int(cleaned_list[row_1])*20 + int(cleaned_list[column_1]))
+                square_id_def = int(int(cleaned_list[row_2])*20 + int(cleaned_list[column_2]))
+                #print(square_id_att, 'this is index ')
+
+                if player == '1':
+                    #print('triggered')
+                    #this means player one is playing
+                    #this will calulcate the square_id with the coordinates and confirm it belongs to the player with ant_dict
+                    #we need to change the 5 into a 20 when moving to full siyed map
+                    if map_position[square_id_att][3] == '🐜':
+                        map_position[square_id_att][3] = None
+                    if map_position[square_id_att][3] != None and map_position[square_id_def][3] != None:
+                        if ant_dict[map_position[square_id_att][3]]['owner'] == 1 and ant_dict[map_position[square_id_att][3]]['health'] > 0:
+                            #this checks if the ant belongs to the player one
+                            used_orders.append([cleaned_list[column_1],cleaned_list[row_1]])
+                            #this checks if the ant is alive
+                            amount_damage = attack_list[ant_dict[map_position[square_id_att][3]]['level']][1]
+                            #this checks the level of the ant to apply damage#
+                            #print(map_position[square_id_def][3])
+                            ant_dict[map_position[square_id_def][3]]['health'] = ant_dict[map_position[square_id_def][3]]['health'] - amount_damage        
+                else:
+                    if map_position[square_id_att][3] == '🐜':
+                        map_position[square_id_att][3] = None
+                    if map_position[square_id_att][3] != None and map_position[square_id_def][3] != None:
+                        if ant_dict[map_position[square_id_att][3]]['owner'] == 2 and ant_dict[map_position[square_id_att][3]]['health'] >= 0:
+                            #this checks if the ant belongs to the player two
+                            used_orders.append([cleaned_list[column_1],cleaned_list[row_1]])
+                            #this checks if the ant is alive
+
+                            amount_damage = attack_list[ant_dict[map_position[square_id_att][3]]['level']][1]
+                            #this checks the level of the ant to apply damage#
+
+                            ant_dict[map_position[square_id_def][3]]['health'] = ant_dict[map_position[square_id_def][3]]['health'] - amount_damage        
+          
+            attack_offset += 3
+
+    
+    #THIS DELETS THE ANTS AT THE END OF THE ROUND
+   
+    if player == '2':
+        
+        amount_ants = len(ant_dict)
+        for ant_id in ant_dict:
+            #print(ant_dict['Ant-%s'%counter]['health'] , 'this is what the counter ext6racts for healthj')
+            
+            if ant_dict[ant_id]['health'] <= 0:
+                
+                square_id_del = ant_dict[ant_id]['square_id']
+                square_id_del -= 1
+                if map_position[square_id_del][3] != None:
+                    if ant_dict[ant_id]['earth'] != 0:
+                        earth_weight = ant_dict[ant_id]['earth']
+                        map_position[square_id_del][4] = earth_weight
+                        #this condition makes sure that squares where ants died previously don't delet the future ants going over it 
+                        map_position[square_id_del][3] = None
+                    else:
+                        map_position[square_id_del][3] = None
+    
+    #as all attacks can be fed to him he will delet all dead ants simoutansiously
+    #remove health
+    
+    
+    #NOTES TO SELF
+
+    #so far you have a check for the range and a check for if it belongs to the right player 
+    
+#ant_attack(ant_dict, ['10-12:*20-20', '11-12:*11-11'])
+
+
+used_orders = []
+
+def movement(ant_dict1, list_position_earth, order_list, player):
+    '''
+    This function will take the desired order_list, will check if the inputed position of the wanted ant is correct by checking
+    its position in the list_position_earth and will finally allow the player to move its ant to the desired position if it does 
+    not infringe any game rules such as moving onto a squre filled with earth while already carrying some through the dico2.
+    If the movement is succesful the list inputed as the list_position_earth will be updated with the new game coordinates.
+    This will also use the Tchebychec function directly by checking if any distance is higher than 1 in the tuble returned by the function.
+
+    Parameters
+    __________
+    dico2 : dictionary containing information on the ant such as its health and if it is carrying earth or not (dict)
+    list_position_earth : this is the list containing information on what is happening on every square of the map (list)
+    order_list : this will be a string under the format r1-c1:*r2-c2 where as many of those orders can be inputed simultaneously as wanted(str)
+    
+    
+
+    version : Benjamin Richter (v1. 22/02/21, v2. 25/02/21)
+    ---------
+    spécification : Benjamin Richter (v1. 21/02/21)
+    '''
+    #THIS VARIABLE SETS THE UPPER AND LOWER LIMITS OF THE MAP
+
+    max_out_bound = 399
+    min_out_bound = 0
+
+
+
+    #this records all legal orders
+    legal_orders = []
+
+    #this uses the imported orders to clean them into coordinates  
+
+    list_wanted = ['0','1','2','3','4','5','6','7','8','9']
+    cleaned_list = []
+    #print(order_list)
+    for order in order_list:
+        
+        cleaned_list.append('')
+        for character in order:
+            #print(character)
+            if character in list_wanted:
+                cleaned_list.append(character)
+            else:
+                cleaned_list.append('') 
+        cleaned_list.append('')
+
+    #print(cleaned_list)
+
+    save_nb = ''
+    cleaned_list_2 = []
+    for numbers in cleaned_list:
+        #print(numbers)
+        if numbers != '':
+            save_nb = save_nb + numbers 
+        elif numbers == '' and save_nb != '':
+            cleaned_list_2.append(save_nb)
+            save_nb = ''
+
+    #print(cleaned_list_2, 'this the clean maybe the error too')
+
+
+    amount_orders = len(cleaned_list_2)
+    separated_list = []
+    for i in range(0, amount_orders, 4):
+        new_list = []
+    
+        for j in range(i, i+4):
+            new_list.append(cleaned_list_2[j])
+
+        separated_list.append(new_list)
+    #print('this is the seprated', separated_list)
+
+    #this checks if the orders are duable and executes them later if they are
+    for coordinates in separated_list:
+        tchebyshev_tuple = tchebyshev([coordinates[0],coordinates[2], coordinates[1],coordinates[3]])
+        #print(tchebyshev_tuple)
+        if tchebyshev_tuple[0] <= 1 and tchebyshev_tuple[1] <= 1:
+            legal_orders.append(coordinates)
+
+
+    #print(separated_list)
+    #print('this is legal', legal_orders)
+    #print(cleaned_list_2)
+
+    
+    
+    
+    #jusqu ici le porgramme rend les ordres lisibles au code et determine si l'ordre est legal ou non
+    #apres ceci le reste de la fonction va regarder les possibilites qui l'empecheraient et l'execute
+
+
+    
+
+    #ok this is the start of the movement restirction first imma program two ants moving on the same position
+
+    if player == '1':
+        for legal_order in legal_orders:
+            origin_coord = [legal_order[0], legal_order[1]]
+            square_id_destination = int(legal_order[2]) + int(legal_order[3]) * 20
+            
+            if origin_coord not in used_orders:
+                if map_position[square_id_destination][3] == None :
+
+
+                    square_id_origin = int(legal_order[0]) + int(legal_order[1]) * 20
+                    ant_name = map_position[square_id_origin][3]
+                    if square_id_destination <= max_out_bound and square_id_destination >= min_out_bound:
+                        if ant_name != None and ant_name != '🐜' :
+                            if ant_dict[ant_name]['earth'] == 0:    
+                                #print('ant found in map position')
+                                ant_name = str(ant_name)
+                                #print(ant_name)
+                                if ant_dict[ant_name]['owner'] == 1:
+
+                                    #this changes the square id position in the ant dict
+                                    ant_dict[ant_name]['square_id'] = square_id_destination
+                                    #this resets the list_position to None and adds the ant to the position
+                                    map_position[square_id_origin][3] = None
+                                    map_position[square_id_destination][3] = ant_name
+                                    #now this should should add the origin coordinates to the already executed list
+
+                                    used_orders.append(origin_coord)
+                            elif ant_dict[ant_name]['earth'] > 0 and map_position[square_id_destination][4] == 0:
+                                #print('ant found in map position')
+                                ant_name = str(ant_name)
+                                #print(ant_name)
+                                if ant_dict[ant_name]['owner'] == 1:
+
+                                    #this changes the square id position in the ant dict
+                                    ant_dict[ant_name]['square_id'] = square_id_destination
+                                    #this resets the list_position to None and adds the ant to the position
+                                    map_position[square_id_origin][3] = None
+                                    map_position[square_id_destination][3] = ant_name
+                                    #now this should should add the origin coordinates to the already executed list
+
+                                    used_orders.append(origin_coord)
+
+    else:      
+                   
+        for legal_order in legal_orders:
+            origin_coord = []
+            square_id_destination = int(legal_order[2]) + int(legal_order[3]) * 20
+             
+            if origin_coord not in used_orders:
+           
+                if map_position[square_id_destination][3] == None:
+                
+                    
+                    square_id_origin = int(legal_order[0]) + int(legal_order[1]) * 20
+                    ant_name = map_position[square_id_origin][3]
+                    if square_id_destination <= max_out_bound and square_id_destination >= min_out_bound:
+                        if ant_name != None and ant_name != '🐜':
+                            if ant_dict[ant_name]['earth'] == 0:
+                                ant_name = str(ant_name)
+                                print(ant_name)
+                                if ant_dict[ant_name]['owner'] == 2:
+
+                                    #this changes the square id position in the ant dict
+                                    ant_dict[ant_name]['square_id'] = square_id_destination
+                                    #this resets the list_position to None and adds the ant to the position
+                                    map_position[square_id_origin][3] = None
+                                    map_position[square_id_destination][3] = ant_name
+                                    #now this should should add the origin coordinates to the already executed list
+
+                                    used_orders.append(origin_coord)
+                            elif ant_dict[ant_name]['earth'] > 0 and map_position[square_id_destination][4] == 0:
+                                ant_name = str(ant_name)
+                                #print(ant_name)
+                                if ant_dict[ant_name]['owner'] == 2:
+                                
+                                    #this changes the square id position in the ant dict
+                                    ant_dict[ant_name]['square_id'] = square_id_destination
+                                    #this resets the list_position to None and adds the ant to the position
+                                    map_position[square_id_origin][3] = None
+                                    map_position[square_id_destination][3] = ant_name
+                                    #now this should should add the origin coordinates to the already executed list
+
+                                    used_orders.append(origin_coord)
+
+
+#movement('a','a',['4-3:@3-2','4-3:@3-4', '4-3:@3-4', '4-3:@4-2', '4-3:@4-4', '4-3:@5-2', '4-3:@5-3', '4-3:@5-4'])
+
+def motte_de_terre(ant_dict, list_orders):
+    """
+    This function serves to pickup and drop a piece of earth. 
+    It takes the dico_2 as paramter to establish whether the ant is already carrying something or not.
+    
+    Parameters :
+    ------------
+    dico_2 : The third elements of all the list in the dictionary (bool)
+    
+    :return:
+    ant_charge : If the ant as already a motte (bool)
+    Version :
+    ---------
+    Specification : Julien Emegenbirn (v1. 19/02/2021)
+    """
+
+    #this cleaner only needs the origin coordinates to check if the ant is carrying something or not
+
+        
+
+    #this uses the imported orders to clean them into coordinates  
+
+    list_wanted = ['0','1','2','3','4','5','6','7','8','9', 'd', 'l']
+    cleaned_list = []
+    
+    for order in list_orders:
+        cleaned_list.append('')
+        for character in order:
+            #print(character)
+            if character in list_wanted:
+                cleaned_list.append(character)
+            else:
+                cleaned_list.append('') 
+        cleaned_list.append('')
+    #print(cleaned_list)
+
+
+    save_nb = ''
+    cleaned_list_2 = []
+    for numbers in cleaned_list:
+        #print(numbers)
+        if numbers != '':
+            save_nb = save_nb + numbers 
+        elif numbers == '' and save_nb != '':
+            cleaned_list_2.append(save_nb)
+            save_nb = ''
+
+    number_orders = len(cleaned_list_2)
+    #print(cleaned_list_2[0], ' this is the cleaneed ;list 2 and not an int')
+
+    for index_order in range(0, number_orders , 3):
+        square_id = int(cleaned_list_2[int(index_order)]) + int(cleaned_list_2[index_order + 1]) * 20
+        print(square_id)
+        #rint(square_id)
+        if cleaned_list_2[index_order+2] == 'l':
+            #print(map_position[square_id][3], 'THIS IS THE SOURCE OF ALL EVIL')
+            if ant_dict[map_position[square_id][3]]['earth'] == 0 and map_position[square_id][4] != 0:
+                weight_lift = map_position[square_id][4]
+                ant_dict[map_position[square_id][3]]['earth'] =  weight_lift
+                #now its picked up and should dissapear from the map
+                map_position[square_id][4] = 0 
+                #print('NICE LIFT BRO')
+                #print(ant_dict)
+
+
+        elif cleaned_list_2[index_order+2] == 'd':
+            
+            if ant_dict[map_position[square_id][3]]['earth'] != 0 and map_position[square_id][4] == 0:
+                
+                weight_carry = ant_dict[map_position[square_id][3]]['earth']
+                map_position[square_id][4] = weight_carry
+                #now its picked up and should dissapear from the map
+                ant_dict[map_position[square_id][3]]['earth'] = 0 
+
+    for coordinat in cleaned_list_2:
+        used_orders.append(coordinat)
+        
+
+def ant_spawn(player_dict, level_ant_1, level_ant_2):
+    """
+    This function serves to spawn a new ant when all other orders
+    have been executed. It takes the dico_1 as parameter in order
+    to obtain the level of the anthill to spawn the correct level ant.
+    
+    Parameters :
+    ------------
+    dico_1 : the third element of the list for every key (int)
+    
+    :return:
+    new_ant : add a new list in the dico_2 (list)
+    Version :
+    ---------
+    Specification : Julien Emegenbirn (v1. 19/02/2021)
+    """
+    ant_counter = len(ant_dict)
+
+    
+
+    if (player_dict[1]['nb_turns'])%5 == 0 and (player_dict[2]['nb_turns'])%5 == 0:
+        #condtition for new ant to spawn is fullfilled
+
+        if map_position[anthill_1][3] == None:
+            ant_counter += 1
+            ant_name = 'Ant-%s' % ant_counter
+            ant_dict['%s'%ant_name] = {'level' : level_ant_1, 'health' : 3, 'earth' : 0, 'square_id' : anthill_1, 'owner' : 1}
+            map_position[anthill_1][3] = ant_name
+
+        if map_position[anthill_2][3] == None:
+            ant_counter += 1
+            ant_name = 'Ant-%s' % ant_counter
+            ant_dict['%s'%ant_name] = {'level' : level_ant_2, 'health' : 3, 'earth' : 0, 'square_id' : anthill_2, 'owner' : 2}
+            map_position[anthill_2][3] = ant_name
+
+
+def ant_level(anthills_square_ids):
+    """
+    This will check how many squares of earth are around the anthill of the player. 
+    This is used to see if the player has won i.e. if he has all 8 spots around him filled with earth but
+    also to determin the level of spawning ants. It takes the list of position as parameter and returns the 
+    amount of filled spots and the level of the new spawning ant.
+    
+    Parameters:
+    -----------
+    anthills_square_ids : list of square id of both in order to find if the squares surrounding it are filled or not (list)
+    
+    :return:
+    full_cases : number of cases with a motte (int)
+    ant_spawn_level : level of the new ant (int)
+    
+    Version :
+    Specification : Julien Emegenbirn (v1. 19/02/2021)
+    ---------
+    """
+
+    anthill_id_1 = anthills_square_ids[0]
+    anthill_id_2 = anthills_square_ids[1]
+
+    #print(anthill_id_1, anthill_id_2)
+
+    coord_anthill_1 = []
+    coord_anthill_2 = []
+
+    #this next bit of code should caculate the position of the squares around it and check if theyre filled
+
+    #right left value
+
+    # THIS IS FOR PLAYER ONE
+
+    coord_anthill_1.append(anthill_id_1+1)
+    coord_anthill_1.append(anthill_id_1-1)
+    #top then left right from the top position pov
+    coord_anthill_1.append(anthill_id_1-20)
+    coord_anthill_1.append(coord_anthill_1[2] + 1)
+    coord_anthill_1.append(coord_anthill_1[2] - 1)
+    #bottom then left and right
+    coord_anthill_1.append(anthill_id_1+20)
+    coord_anthill_1.append(coord_anthill_1[5] + 1)
+    coord_anthill_1.append(coord_anthill_1[5] - 1)    
+
+    # THIS IS FOR PLAYER TWO 
+
+
+    coord_anthill_2.append(anthill_id_2+1)
+    coord_anthill_2.append(anthill_id_2-1)
+    #top then left2right from the top position pov
+    coord_anthill_2.append(anthill_id_2-20)
+    coord_anthill_2.append(anthill_id_2-20 + 1)
+    coord_anthill_2.append(anthill_id_2-20 - 1)
+    #bottom then l2ft and right
+    coord_anthill_2.append(anthill_id_2+20)
+    coord_anthill_2.append(anthill_id_2+20 + 1)
+    coord_anthill_2.append(anthill_id_2+20 - 1)    
+    #print(coord_anthill_2)
+
+    # THIS ITERATE THROUGH THE SQUARE IDS TO CHECK IF WEIGHT I ABOVE 0
+    anthill_1_earth = []
+    anthill_2_earth = []
+
+    for element_id in range(8):
+        
+        if map_position[coord_anthill_1[element_id]][4] > 0:
+            anthill_1_earth.append(True)
+        if map_position[coord_anthill_2[element_id]][4] > 0:
+            anthill_2_earth.append(True)
+
+    #print(anthill_2_earth)
+    player_level_1 = 0
+    for element_bool_1 in anthill_1_earth:
+        if element_bool_1 == True:
+            player_level_1 += 1
+
+    player_level_2 = 0
+    for element_bool_2 in anthill_2_earth:
+        if element_bool_2 == True:
+            player_level_2 += 1
+
+
+
+    if player_level_1 <= 2:
+        level_ant_1 = 1
+    elif  player_level_1 <= 5:
+        level_ant_1 = 2
+    else:
+        level_ant_1 = 3    
+
+
+    if player_level_2 <= 2:
+        level_ant_2 = 1
+    elif  player_level_2 <= 5:
+        level_ant_2 = 2
+    else:
+        level_ant_2 = 3  
+    
+
+
+    player_dict[1]['level'] = player_level_1
+    player_dict[2]['level'] = player_level_2
+    
+
+    ant_spawn(player_dict, level_ant_1, level_ant_2)
+    return (player_level_1, player_level_2) , (level_ant_1, level_ant_2)
+
+
+
+def ai_decision(ant_dict , map_position, anthill):
+
+    row_anthill = anthill // 20
+    col_anthill = anthill % 20
+
+    direction = (' ','N','NE','E','SE','S','SO','O','NO')
+    grid_x = 19
+    grid_y = 19
+    order_ai = ''
+
+    target_empty=False
+    while not target_empty:
+        
+        for ant_name in ant_dict:
+            order_executed = False
+            num = randint(0,len(direction)-1)
+            
+            if ant_dict[ant_name]['owner'] == 1:
+                index_id = ant_dict[ant_name]['square_id']  
+                move_chance = randint(0, 100)
+                ys = index_id //20
+                xs = index_id % 20
+                xt, yt = xs, ys
+
+
+                distance_anthill = tchebyshev((xs, col_anthill, ys, row_anthill))
+            
+                if map_position[index_id][4] > 0 and (distance_anthill[0] > 1 or distance_anthill[1] > 1):
+                    
+                    string_order ='%s-%s:lift ' % (xs, ys)
+                    order_ai += string_order
+                    order_executed = True 
+
+                if ((distance_anthill[0] == 1 and distance_anthill[1] == 1) or (distance_anthill[0] == 0 and distance_anthill[1] == 1) or (distance_anthill[0] == 1 and distance_anthill[1] == 0)) and ant_dict[ant_name]['earth'] > 0 and map_position[ant_dict[ant_name]['square_id']] != anthill and map_position[ant_dict[ant_name]['square_id']][4] == 0:
+                    
+                    string_order = '%s-%s:drop ' % (xs, ys)
+                    order_ai += string_order
+                    order_executed = True
+
+                if ant_dict[ant_name]['earth'] > 0:
+                    net_difference_row = row_anthill - ys
+                    net_difference_col = col_anthill - xs
+                    
+                    if abs(net_difference_row) != 1 and abs(net_difference_col) != 1:
+
+
+                        if net_difference_col == 0 and net_difference_row < 0:
+                            if yt > 1 : yt-=1
+                        elif net_difference_col > 0 and net_difference_row < 0:
+                            if xt < grid_x : xt+=1
+                            if yt > 1 : yt-=1
+                        elif net_difference_col > 0 and net_difference_row == 0:
+                            if xt < grid_x : xt+=1
+                        elif net_difference_col > 0 and net_difference_row > 0:
+                            if xt < grid_x :  xt+=1
+                            if yt < grid_y  : yt+=1
+                        elif net_difference_col == 0 and net_difference_row > 0:
+                            if yt < grid_y : yt+=1
+                        elif net_difference_col < 0 and net_difference_row > 0:
+                            if xt > 1 : xt-=1
+                            if yt < grid_y : yt+=1
+                        elif net_difference_col < 0 and net_difference_row == 0:
+                            if xt > 1 : xt-=1
+                        elif net_difference_col < 0 and net_difference_row < 0 :
+                            if xt > 1 : xt-=1
+                            if yt > 1 : yt-=1
+                        string_order = '%s-%s:@%s-%s ' % (xs, ys, xt, yt)
+                        order_ai += string_order
+                        order_executed = True
+                
+                for ant_nb in ant_dict:
+                    id_square_ant = ant_dict[ant_nb]['square_id']
+
+                    row_ant = id_square_ant // 20
+                    col_ant = id_square_ant % 20
+
+                    if str(ant_nb) != str(ant_name):
+                        
+                        #if ant_dict[ant_name]['owner'] != ant_dict[ant_nb]['owner']:
+                        
+                        if thebyshev_distance((xs, ys), (col_ant, row_ant)) == True:
+                            if ant_dict[ant_nb]['owner'] != ant_dict[ant_name]['owner']:
+                                if ant_dict[ant_nb]['health'] > 0:
+
+                                    string_order = '%s-%s:*%s-%s ' % (xs, ys,col_ant, row_ant)
+                                    order_ai += string_order
+
+
+
+                if move_chance < 85 and order_executed == False:
+                    if direction[num] == 'N' :
+                        if yt > 1 : yt-=1
+                    elif direction[num] == 'NE' :
+                        if xt < grid_x : xt+=1
+                        if yt > 1 : yt-=1
+                    elif direction[num] == 'E' :
+                        if xt < grid_x : xt+=1
+                    elif direction[num] == 'SE' :
+                        if xt < grid_x :  xt+=1
+                        if yt < grid_y  : yt+=1
+                    elif direction[num] == 'S' :
+                        if yt < grid_y : yt+=1
+                    elif direction[num] == 'SO' :
+                        if xt > 1 : xt-=1
+                        if yt < grid_y : yt+=1
+                    elif direction[num] == 'O' :
+                        if xt > 1 : xt-=1
+                    elif direction[num] == 'NO' :
+                        if xt > 1 : xt-=1
+                        if yt > 1 : yt-=1
+
+                    string_order = '%s-%s:@%s-%s ' % (xs, ys, xt, yt)
+                    order_ai += string_order
+                
+       
+        return order_ai
+
+          
+
+
+
+
+map_position = map_generator(r'C:\Users\benny\OneDrive\Desktop\project ia\small.cpx')
+anthill_1 = map_position[1] 
+anthill_2 = map_position[2] 
+map_position = map_position[0]
+
+
+
+game_status = False
+
+
+
+while game_status == False:
+      
+    used_orders = []
+    
+    ant_level([anthill_1, anthill_2])
+    #ant_spawn(player_dict)
+    #print(map_position)
+    #print(ant_dict['Ant-2']['level'])
+    #print(ant_dict)
+
+    give_orders(game_status)
+    
+
+    
+     
+
+    y = 8
+    for i in range(20):
+        x = 50
+        print(term.move_xy(x, y) + term.sienna4("xx===xx"), end=' ') 
+        y += 1
+        print(term.move_xy(x, y) + term.sienna4("||   ||"), end=' ')
+        y += 1
+        print(term.move_xy(x, y) + term.sienna4("xx===xx"), end=' ')
+        y += 0
+    
+
+        for i in range(19):
+            x += 5
+            y -= 2
+            print(term.move_xy(x, y) + term.sienna4("xx===xx"), end=' ')
+            y += 1
+            print(term.move_xy(x, y) + term.sienna4("||   ||"), end=' ')
+            y += 1
+            print(term.move_xy(x, y) + term.sienna4("xx===xx"), end=' ')
+
+
+
+    #compteur_point_tour    
+    print(term.move_xy(75, 2) + term.sienna4("x====================================================x"), end=' ') 
+    print(term.move_xy(75, 3) + term.sienna4("||                        ||                        ||"), end=' ')
+    print(term.move_xy(75, 4) + term.sienna4("x====================================================x"), end=' ')
+    print(term.move_xy(90, 5) + term.sienna4("||                  ||"), end=' ')
+    print(term.move_xy(90, 6) + term.sienna4("x====================x"), end=' ')
+
+    #map_position_translated = map_position
+    #map_position_front_end = map_position
+
+    for u in range(400):
+        if map_position[u][3] == None:
+            map_position[u][3] = ' '
+        else:
+            map_position[u][3] = '🐜'
+
+        if map_position[u][4] > 0 and map_position[u][3] == '🐜':
+            map_position[u][4] = '🐜'
+        elif map_position[u][4] > 0:
+            map_position[u][4] = '\U0001F30E'
+ 
+   
+    i = 0 #numlist
+    j = 3 #utf8
+    for i in range(1):
+        y = 7
+        for i in range(20):
+            x = 47
+            y += 2
+            for k in range(20):
+                x+= 5
+                idk = (i * 20) + k
+                print(term.move_xy(x, y) + map_position[idk][j], end=' ')
+                if map_position[idk][4] == '\U0001F30E':
+                    print(term.move_xy(x, y) + map_position[idk][4], end=' ')
+
+    for jk in range(400):
+        if map_position[jk][3] == ' ':
+            map_position[jk][3] = None
+        elif map_position[jk][3] == '🐜':
+            for ij in range(1, len(ant_dict) + 1):
+                ant_index = 'Ant-%s' % ij
+                if ant_dict[ant_index]['square_id'] == jk:
+                    if ant_dict['Ant-%s' % ij]['health'] > 0:
+                        map_position[jk][3] = ant_index
+        else:
+            map_position[jk][3] = None
+        if map_position[jk][4] != 0:
+           
+            map_position[jk][4] = 1 
+
+
+    
+
+
+
