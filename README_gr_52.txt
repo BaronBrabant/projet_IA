@@ -1,4 +1,9 @@
+You'll need to intitialize the map before you can play, you can do this by giving the full path
+of the .cpx file as parameter to the map_generator() function.
+This code only works for the small.cpx file for now.
+Once the file path is included you can launch the game.
 
+The first order should be a blank statement aka. not giving an order and the map will load itself.
 
 When the game is launched, you can give the ants instructions in the following format:
 
