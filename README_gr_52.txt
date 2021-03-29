@@ -1,4 +1,6 @@
-When the game is launch, you can give instruction to the ants as :
+
+
+When the game is launched, you can give the ants instructions in the following format:
 
 move : 
 ex: 18-19:@19-19 #the ant who is in 18-19 will move to the case 19-19.
