@@ -1,0 +1,115 @@
+def ai_decision(ant_dict , map_position, anthill):
+
+    row_anthill = anthill // 20
+    col_anthill = anthill % 20
+
+    direction = (' ','N','NE','E','SE','S','SO','O','NO')
+    grid_x = 19
+    grid_y = 19
+    order_ai = ''
+
+    target_empty=False
+    while not target_empty:
+        
+        for ant_name in ant_dict:
+            order_executed = False
+            num = randint(0,len(direction)-1)
+            
+            if ant_dict[ant_name]['owner'] == 1:
+                index_id = ant_dict[ant_name]['square_id']  
+                move_chance = randint(0, 100)
+                ys = index_id //20
+                xs = index_id % 20
+                xt, yt = xs, ys
+
+
+                distance_anthill = tchebyshev((xs, col_anthill, ys, row_anthill))
+            
+                if map_position[index_id][4] > 0 and (distance_anthill[0] > 1 or distance_anthill[1] > 1):
+                    
+                    string_order ='%s-%s:lift ' % (xs, ys)
+                    order_ai += string_order
+                    order_executed = True 
+
+                if ((distance_anthill[0] == 1 and distance_anthill[1] == 1) or (distance_anthill[0] == 0 and distance_anthill[1] == 1) or (distance_anthill[0] == 1 and distance_anthill[1] == 0)) and ant_dict[ant_name]['earth'] > 0 and map_position[ant_dict[ant_name]['square_id']] != anthill and map_position[ant_dict[ant_name]['square_id']][4] == 0:
+                    print('executed')
+                    string_order = '%s-%s:drop ' % (xs, ys)
+                    order_ai += string_order
+                    order_executed = True
+
+                if ant_dict[ant_name]['earth'] > 0:
+                    net_difference_row = row_anthill - ys
+                    net_difference_col = col_anthill - xs
+                    
+                    if abs(net_difference_row) != 1 and abs(net_difference_col) != 1:
+
+
+                        if net_difference_col == 0 and net_difference_row < 0:
+                            if yt > 1 : yt-=1
+                        elif net_difference_col > 0 and net_difference_row < 0:
+                            if xt < grid_x : xt+=1
+                            if yt > 1 : yt-=1
+                        elif net_difference_col > 0 and net_difference_row == 0:
+                            if xt < grid_x : xt+=1
+                        elif net_difference_col > 0 and net_difference_row > 0:
+                            if xt < grid_x :  xt+=1
+                            if yt < grid_y  : yt+=1
+                        elif net_difference_col == 0 and net_difference_row > 0:
+                            if yt < grid_y : yt+=1
+                        elif net_difference_col < 0 and net_difference_row > 0:
+                            if xt > 1 : xt-=1
+                            if yt < grid_y : yt+=1
+                        elif net_difference_col < 0 and net_difference_row == 0:
+                            if xt > 1 : xt-=1
+                        elif net_difference_col < 0 and net_difference_row < 0 :
+                            if xt > 1 : xt-=1
+                            if yt > 1 : yt-=1
+                        string_order = '%s-%s:@%s-%s ' % (xs, ys, xt, yt)
+                        order_ai += string_order
+                        order_executed = True
+                
+                for ant_nb in ant_dict:
+                    id_square_ant = ant_dict[ant_nb]['square_id']
+
+                    row_ant = id_square_ant // 20
+                    col_ant = id_square_ant % 20
+
+                    if str(ant_nb) != str(ant_name):
+                        
+                        #if ant_dict[ant_name]['owner'] != ant_dict[ant_nb]['owner']:
+                        print(thebyshev_distance((xs, ys), (col_ant, row_ant)))
+                        if thebyshev_distance((xs, ys), (col_ant, row_ant)) == True:
+                            if ant_dict[ant_nb]['health'] > 0:
+                                
+                                string_order = '%s-%s:*%s-%s ' % (xs, ys,col_ant, row_ant)
+                                order_ai += string_order
+
+
+
+                if move_chance < 85 and order_executed == False:
+                    if direction[num] == 'N' :
+                        if yt > 1 : yt-=1
+                    elif direction[num] == 'NE' :
+                        if xt < grid_x : xt+=1
+                        if yt > 1 : yt-=1
+                    elif direction[num] == 'E' :
+                        if xt < grid_x : xt+=1
+                    elif direction[num] == 'SE' :
+                        if xt < grid_x :  xt+=1
+                        if yt < grid_y  : yt+=1
+                    elif direction[num] == 'S' :
+                        if yt < grid_y : yt+=1
+                    elif direction[num] == 'SO' :
+                        if xt > 1 : xt-=1
+                        if yt < grid_y : yt+=1
+                    elif direction[num] == 'O' :
+                        if xt > 1 : xt-=1
+                    elif direction[num] == 'NO' :
+                        if xt > 1 : xt-=1
+                        if yt > 1 : yt-=1
+
+                    string_order = '%s-%s:@%s-%s ' % (xs, ys, xt, yt)
+                    order_ai += string_order
+                
+        print(order_ai)
+        return order_ai
