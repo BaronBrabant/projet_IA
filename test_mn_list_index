@@ -1503,7 +1503,8 @@ def main_game_function(CPX_file, group_1, type_1, group_2, type_2):
         print(term.move_xy(75, 4) + term.sienna4("x====================================================x"), end=' ')
         print(term.move_xy(90, 5) + term.sienna4("||                  ||"), end=' ')
         print(term.move_xy(90, 6) + term.sienna4("x====================x"), end=' ')
-
+        converted_nb_turns = str(player_dict[1]['nb_turns'])
+        print(term.move_xy(100, 5) + term.sienna4(converted_nb_turns), end=' ')
 
         print(term.move_xy(175, 6) + term.sienna4("x=======PLAYER 1=======x"), end=' ')
         print(term.move_xy(230, 6) + term.sienna4("x=======PLAYER 2=====x"), end=' ')
