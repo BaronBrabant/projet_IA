@@ -1519,7 +1519,40 @@ def main_game_function(CPX_file, group_1, type_1, group_2, type_2):
         health_5 = 'Progress: [▮▮▮▮▮ ]'
         health_6 = 'Progress: [▮▮▮▮▮▮ ]'
         health_7 = 'Progress: [▮▮▮▮▮▮▮ ]'
-
+        
+        if player_dict[1]['level'] == 1:
+            print(term.move_xy(77, 3) + term.green4('▮'), end=' ')
+        if player_dict[1]['level'] == 2:
+            print(term.move_xy(77, 3) + term.green4('▮▮'), end=' ')
+        if player_dict[1]['level'] == 3:
+            print(term.move_xy(77, 3) + term.green4('▮▮▮'), end=' ')
+        if player_dict[1]['level'] == 4:
+            print(term.move_xy(77, 3) + term.green4('▮▮▮▮'), end=' ')
+        if player_dict[1]['level'] == 5:
+            print(term.move_xy(77, 3) + term.green4('▮▮▮▮▮'), end=' ')
+        if player_dict[1]['level'] == 6:
+            print(term.move_xy(77, 3) + term.green4('▮▮▮▮▮▮'), end=' ')
+        if player_dict[1]['level'] == 7:
+            print(term.move_xy(77, 3) + term.green4('▮▮▮▮▮▮▮'), end=' ')
+        if player_dict[1]['level'] == 8:
+            print(term.move_xy(77, 3) + term.green4('▮▮▮▮▮▮▮▮'), end=' ')
+        if player_dict[2]['level'] == 1:
+            print(term.move_xy(102, 3) + term.red('▮'), end=' ')
+        if player_dict[2]['level'] == 2:
+            print(term.move_xy(102, 3) + term.red('▮▮'), end=' ')
+        if player_dict[2]['level'] == 3:
+            print(term.move_xy(102, 3) + term.red('▮▮▮'), end=' ')
+        if player_dict[2]['level'] == 4:
+            print(term.move_xy(102, 3) + term.red('▮▮▮▮'), end=' ')
+        if player_dict[2]['level'] == 5:
+            print(term.move_xy(102, 3) + term.red('▮▮▮▮▮'), end=' ')
+        if player_dict[2]['level'] == 6:
+            print(term.move_xy(102, 3) + term.red('▮▮▮▮▮▮'), end=' ')
+        if player_dict[2]['level'] == 7:
+            print(term.move_xy(102, 3) + term.red('▮▮▮▮▮▮▮'), end=' ')
+        if player_dict[2]['level'] == 8:
+            print(term.move_xy(102, 3) + term.red('▮▮▮▮▮▮▮▮'), end=' ')
+        
         earth_1 = '🚫'
         earth_2 =  '💿'
         earth_3 = '📀'
